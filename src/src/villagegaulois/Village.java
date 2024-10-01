@@ -8,10 +8,12 @@ public class Village {
 	private Chef chef;
 	private Gaulois[] villageois;
 	private int nbVillageois = 0;
+	private Marche marche;
 
 	public Village(String nom, int nbVillageoisMaximum) {
 		this.nom = nom;
 		villageois = new Gaulois[nbVillageoisMaximum];
+		marche = new Marche(5);
 		
 	}
 
@@ -50,11 +52,14 @@ public class Village {
 				etal[i]=new Etal();
 			}
 		}
-		void utiliserEtal (int indiceEtal, Gaulois vendeur, String produit, int nbProduit) {
+		public void utiliserEtal (int indiceEtal, Gaulois vendeur, String produit, int nbProduit) {
 			etal[indiceEtal].occuperEtal(vendeur, produit, nbProduit);
 			
 		}
-		int trouverEtalLibre() {
+		public int tailleEtal() {
+			return etal.length;
+		}
+		public int trouverEtalLibre() {
 			int taille = etal.length;
 			for (int i=0; i<taille ;i++) {
 				if (etal[i]==null) {
@@ -64,7 +69,7 @@ public class Village {
 			return -1;
 		}
 		
-		Etal[] trouverEtal(String produit) {
+		public Etal[] trouverEtal(String produit) {
 			int nbEtal = 0;
 			for (int i = 0; i<etal.length; i++) {
 				if (etal[i].contientProduit(produit)) {
@@ -80,7 +85,7 @@ public class Village {
 			}
 			return etal1;
 		}
-		Etal trouverVendeur(Gaulois gaulois) {
+		public Etal trouverVendeur(Gaulois gaulois) {
 			for (int i = 0; i < etal.length; i++) {
 				if (etal[i].getVendeur()==gaulois) {
 					return etal[i];
@@ -88,7 +93,7 @@ public class Village {
 			}
 			return null;
 		}
-		void afficherMarche(){
+		public void afficherMarche(){
 			int nbEtalVide = 0;
 			for (int i = 0; i < etal.length; i++) {
 				if (etal[i].isEtalOccupe()) {
@@ -116,4 +121,67 @@ public class Village {
 		}
 		return chaine.toString();
 	}
+	
+	public String installerVendeur (Gaulois vendeur, String produit, int nbProduits) {
+		int numeroEtal = marche.trouverEtalLibre();
+		marche.utiliserEtal(numeroEtal, vendeur, produit, nbProduits);
+		return vendeur.getNom()+" cherche un endroit pour vendre " + nbProduits + " "+ produit+".\n"+"Le vendeur "+ vendeur.getNom()+" vends des "+produit+ " a l'etal n°"+numeroEtal+".";
+		
+	}
+	
+	public String rechercherVendeursProduit(String produit) {
+		Etal[] etalTrouver = marche.trouverEtal(produit);
+		if (etalTrouver.length==0) {
+			return "Il n'y a pas de vendeur qui propose des "+ produit+ " au marche";
+		}else if (etalTrouver.length==1) {
+			return "Seul le vendeur "+ etalTrouver[0].getVendeur()+ " propose des " + produit+ " au marche.";
+			
+		} else {
+			StringBuilder liste = new StringBuilder();
+			liste.append("Les vendeurs qui proposent des "+ produit+ " sont : \n");
+			for (int i = 0; i < etalTrouver.length; i++) {
+				liste.append("- "+ etalTrouver[i].getVendeur()+ " \n");
+			}	
+			return liste.toString();
+		}
+	}
+	public int etalLibre() {
+		return marche.trouverEtalLibre(); 
+		
+	}
+	public int taille() {
+		return marche.tailleEtal();
+	}
+	
+	
+	
+	
+		
+	
+	
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
