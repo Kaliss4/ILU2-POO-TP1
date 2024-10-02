@@ -17,11 +17,37 @@ public class Scenario {
 		Gaulois asterix = new Gaulois("Astérix", 8);
 		Gaulois assurancetourix = new Gaulois("Assurancetourix", 2);
 		Gaulois bonemine = new Gaulois("Bonemine", 7);
+		Gaulois panoramix = new Gaulois("Panoramix",3);
 		
-		System.out.println(village.etalLibre());
-//		System.out.println(village.installerVendeur(bonemine, "Fleurs", 20));
+		System.out.println(village.rechercherVendeursProduit("Fleurs"));
+		System.out.println(village.installerVendeur(bonemine,"Fleurs", 20));
+		System.out.println(village.rechercherVendeursProduit("Fleurs"));
 		
-//		village.installerVendeur(bonemine, "fleurs", 20);
+		System.out.println(" \n");
+		System.out.println(village.installerVendeur(assurancetourix,"Lyres", 5));
+		System.out.println(village.installerVendeur(obelix,"Menhirs", 2));
+		System.out.println(village.installerVendeur(panoramix,"Fleurs", 10));
+		
+		System.out.println(" \n");
+		System.out.println(village.rechercherVendeursProduit("Fleurs"));
+		
+		try {
+		System.out.println(village.acheterProduit(bonemine, abraracourcix, 10));
+		System.out.println(village.acheterProduit(bonemine, obelix, 15));
+		System.out.println(village.acheterProduit(bonemine, assurancetourix, 15));
+		}catch(NullPointerException e) {
+			System.out.println("L'acheteur ne doit pas etre null.");
+		}catch (IllegalArgumentException e) {
+			System.out.println("La quantite doit etre positive.");
+		}catch (IllegalStateException e) {
+			System.out.println("L'etalt doit etre occupe.");
+		}
+		
+		System.out.println(" \n");
+		System.out.println(village.partirVendeur(bonemine));
+		System.out.println(village.afficherMarche());
+		
+		
 		
 //		village.ajouterHabitant(bonemine);
 //		village.ajouterHabitant(assurancetourix);
